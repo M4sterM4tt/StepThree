@@ -21,17 +21,18 @@ var playerVelocityY;
 var playerAccelerationX;
 var playerAccelerationY;
 
-var enemyType;
-var enemyPositionX;
-var enemyPositionY;
-var enemyVelocityX;
-var enemyVelocityY;
-var enemyAccelerationX;
-var enemyAccelerationY;
+//var enemyType;
+//var enemyPositionX;
+//var enemyPositionY;
+//var enemyVelocityX;
+//var enemyVelocityY;
+//var enemyAccelerationX;
+//var enemyAccelerationY;
 
 // Other Variables
 var renderTime;
 var x;
+var breaker;
 
 window.onload = function() {
 	
@@ -54,13 +55,13 @@ window.onload = function() {
 	playerAccelerationX = 0;
 	playerAccelerationY = 0;
 	
-	enemyType = [2,2,2,2,2,2,3,3,3,3];
-	enemyPositionX = [0,0,0,0,0,0,0,0,0,0];
-	enemyPositionY = [0,0,0,0,0,0,0,0,0,0];
-	enemyVelocityX = [0,0,0,0,0,0,0,0,0,0];
-	enemyVelocityY = [0,0,0,0,0,0,0,0,0,0];
-	enemyAccelerationX = [0,0,0,0,0,0,0,0,0,0];
-	enemyAccelerationY = [0,0,0,0,0,0,0,0,0,0];
+	//enemyType = [2,2,2,2,2,2,3,3,3,3];
+	//enemyPositionX = [0,0,0,0,0,0,0,0,0,0];
+	//enemyPositionY = [0,0,0,0,0,0,0,0,0,0];
+	//enemyVelocityX = [0,0,0,0,0,0,0,0,0,0];
+	//enemyVelocityY = [0,0,0,0,0,0,0,0,0,0];
+	//enemyAccelerationX = [0,0,0,0,0,0,0,0,0,0];
+	//enemyAccelerationY = [0,0,0,0,0,0,0,0,0,0];
 
 	body.beginPath();	
 	body.drawImage(level,0,0,canvas.width,canvas.height);
@@ -71,13 +72,13 @@ window.onload = function() {
 	body.beginPath();
 	body.drawImage(otherAssets[1],playerPositionX[1],playerPositionY[1],canvas.width/20,canvas.width/20);	
 	
-	for(x = 0; x < enemyType.length; x+=1) {
-		body.beginPath();
-		body.drawImage(otherAssets[enemyType[x]],enemyPositionX[x],enemyPositionY[x],canvas.width/20,canvas.width/20);
-	}
+	//for(x = 0; x < enemyType.length; x+=1) {
+		//body.beginPath();
+		//body.drawImage(otherAssets[enemyType[x]],enemyPositionX[x],enemyPositionY[x],canvas.width/20,canvas.width/20);
+	//}
 	
 	// Setting Intervals
-	renderTime = 10000;
+	renderTime = 200;
 	window.setInterval(render,renderTime);
 	render();
 }
@@ -85,7 +86,10 @@ window.onload = function() {
 
 function render() {
 	
-	window.addEventListener('deviceorientation', Orientation);
+	if (window.DeviceOrientationEvent) {
+		window.addEventListener('deviceorientation', Orientation);
+	}
+	
 	
 	function Orientation() {
 		
@@ -104,13 +108,11 @@ function render() {
 			playerAccelerationY = (-1/80)*event.gamma;
 		}
 		
-		playerVelocityX = playerVelocityX + playerAccelerationX;
-		playerVelocityY = playerVelocityY + playerAccelerationY;
-		playerPositionX[1] = playerPositionX[1] + (1/4)*playerVelocityX;
-		playerPositionY[1] = playerPositionY[1] + (1/4)*playerVelocityY;
 	}
 	
 	
+	playerVelocityX = playerVelocityX + playerAccelerationX;
+	playerVelocityY = playerVelocityY + playerAccelerationY;
 	playerPositionX[1] = playerPositionX[1] + (1/4)*playerVelocityX;
 	playerPositionY[1] = playerPositionY[1] + (1/4)*playerVelocityY;
 	
@@ -155,6 +157,6 @@ function render() {
 	
 	body.beginPath();
 	body.drawImage(otherAssets[1],playerPositionX[1],playerPositionY[1],canvas.width/20,canvas.width/20);
+		
 	
-
 }
