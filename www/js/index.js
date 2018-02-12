@@ -78,7 +78,7 @@ window.onload = function() {
 	//}
 	
 	// Setting Intervals
-	renderTime = 200;
+	renderTime = 1;
 	window.setInterval(render,renderTime);
 	render();
 }
@@ -86,26 +86,21 @@ window.onload = function() {
 
 function render() {
 	
-	if (window.DeviceOrientationEvent) {
-		window.addEventListener('deviceorientation', Orientation);
-	}
-	
-	
-	function Orientation() {
+	window.ondevicemotion = function(deviceMotionEvent) {
 		
 		if (playerAccelerationX/playerAccelerationX == event.beta/event.beta) {
-			playerAccelerationX = (1/40)*event.beta;
+			playerAccelerationX = (1/40)*deviceMotionEvent.accelerationIncludingGravity.x;
 		}
 		else {
-			playerAccelerationX = (1/80)*event.beta;
+			playerAccelerationX = (1/80)*deviceMotionEvent.accelerationIncludingGravity.x;
 		}
 	
 	
 		if (playerAccelerationY/playerAccelerationY == event.gamma/event.gamma) {
-			playerAccelerationY = (-1/40)*event.gamma;
+			playerAccelerationY = (-1/40)*deviceMotionEvent.accelerationIncludingGravity.y;
 		}
 		else {
-			playerAccelerationY = (-1/80)*event.gamma;
+			playerAccelerationY = (-1/80)*deviceMotionEvent.accelerationIncludingGravity.y;
 		}
 		
 	}
