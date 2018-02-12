@@ -89,18 +89,18 @@ function render() {
 	window.ondevicemotion = function(deviceMotionEvent) {
 		
 		if (playerAccelerationX/playerAccelerationX == event.beta/event.beta) {
-			playerAccelerationX = (1/40)*deviceMotionEvent.accelerationIncludingGravity.x;
+			playerAccelerationX = (1/40)*deviceMotionEvent.accelerationIncludingGravity.y;
 		}
 		else {
-			playerAccelerationX = (1/80)*deviceMotionEvent.accelerationIncludingGravity.x;
+			playerAccelerationX = (1/80)*deviceMotionEvent.accelerationIncludingGravity.y;
 		}
 	
 	
 		if (playerAccelerationY/playerAccelerationY == event.gamma/event.gamma) {
-			playerAccelerationY = (-1/40)*deviceMotionEvent.accelerationIncludingGravity.y;
+			playerAccelerationY = (-1/40)*deviceMotionEvent.accelerationIncludingGravity.x;
 		}
 		else {
-			playerAccelerationY = (-1/80)*deviceMotionEvent.accelerationIncludingGravity.y;
+			playerAccelerationY = (-1/80)*deviceMotionEvent.accelerationIncludingGravity.x;
 		}
 		
 	}
