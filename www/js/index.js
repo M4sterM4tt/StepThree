@@ -105,7 +105,7 @@ function render() {
 		
 		for(loop = 0; loop < enemyType.length; loop+=1) {
 			
-			if (enemyType == 3) {
+			if (enemyType[loop] == 3) {
 			
 				if (enemyAccelerationX[loop]/enemyAccelerationX[loop] == deviceMotionEvent.accelerationIncludingGravity/deviceMotionEvent.accelerationIncludingGravity) {
 					enemyAccelerationX[loop] = (1/50)*deviceMotionEvent.accelerationIncludingGravity.y;
@@ -136,16 +136,43 @@ function render() {
 	
 	for(loop = 0; loop < enemyType.length; loop+=1) {
 		
+		
 		enemyVelocityX[loop] = enemyVelocityX[loop] + enemyAccelerationX[loop];
 		enemyVelocityY[loop] = enemyVelocityY[loop] + enemyAccelerationY[loop];
 		enemyPositionX[loop] = enemyPositionX[loop] + (1/5)*enemyVelocityX[loop];
 		enemyPositionY[loop] = enemyPositionY[loop] + (1/5)*enemyVelocityY[loop];
+		
 		
 		if ( (playerPositionX[1] <= enemyPositionX[loop] + canvas.width/40 && playerPositionX[1] >= playerPositionX[loop] - canvas.width/40) && (playerPositionY[1] <= playerPositionY[loop] + canvas.width/40 && playerPositionY[1] >= playerPositionY[loop] - canvas.width/40) ) {
 			alert ("You are Dead")
 			enemyPositionX[loop] = canvas.width - enemyPositionX[loop];
 			enemyPositionY[loop] = canvas.height - enemyPositionY[loop];
 		}
+		
+		
+		if (enemyPositionX[loop] >  canvas.width - (1/20)*canvas.width) {
+			enemyPositionX[loop] =  canvas.width - (1/20)*canvas.width;
+			enemyVelocityX =  (-1/2)*enemyVelocityX;
+			enemyVelocityY =  (-1/2)*enemyVelocityY;
+		}
+		else if (playerPositionX[loop] < 0) {
+			enemyPositionX[loop] =  0;
+			enemyVelocityX =  (-1/2)*enemyVelocityX;
+			enemyVelocityY =  (-1/2)*enemyVelocityY;
+		}
+	
+	
+		if (enemyPositionY[loop] >  canvas.height - (1/10)*canvas.height) {
+			enemyPositionY[loop] =  canvas.height - (1/10)*canvas.height;
+			enemyVelocityX =  (-1/2)*enemyVelocityX;
+			enemyVelocityY =  (-1/2)*enemyVelocityY;
+		}
+		else if (enemyPositionY[loop] < 0) {
+			enemyPositionY[loop] =  0;
+			enemyVelocityX =  (-1/2)*enemyVelocityX;
+			enemyVelocityY =  (-1/2)*enemyVelocityY;
+		}
+	
 	}	
 	
 	
