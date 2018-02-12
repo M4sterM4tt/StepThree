@@ -143,7 +143,7 @@ function render() {
 		enemyPositionY[loop] = enemyPositionY[loop] + (1/5)*enemyVelocityY[loop];
 		
 		
-		if ( (playerPositionX[1] <= enemyPositionX[loop] + canvas.width/40 && playerPositionX[1] >= playerPositionX[loop] - canvas.width/40) && (playerPositionY[1] <= playerPositionY[loop] + canvas.width/40 && playerPositionY[1] >= playerPositionY[loop] - canvas.width/40) ) {
+		if ( (playerPositionX[1] <= enemyPositionX[loop] + canvas.width/30 && playerPositionX[1] >= enemyPositionX[loop] - canvas.width/30) && (playerPositionY[1] <= enemyPositionY[loop] + canvas.width/30 && playerPositionY[1] >= enemyPositionY[loop] - canvas.width/30) ) {
 			alert ("You are Dead")
 			enemyPositionX[loop] = canvas.width - enemyPositionX[loop];
 			enemyPositionY[loop] = canvas.height - enemyPositionY[loop];
@@ -152,25 +152,25 @@ function render() {
 		
 		if (enemyPositionX[loop] >  canvas.width - (1/20)*canvas.width) {
 			enemyPositionX[loop] =  canvas.width - (1/20)*canvas.width;
-			enemyVelocityX =  (-1/2)*enemyVelocityX;
-			enemyVelocityY =  (-1/2)*enemyVelocityY;
+			enemyVelocityX[loop] =  (-1/2)*enemyVelocityX[loop];
+			enemyVelocityY[loop] =  (-1/2)*enemyVelocityY[loop];
 		}
 		else if (playerPositionX[loop] < 0) {
 			enemyPositionX[loop] =  0;
-			enemyVelocityX =  (-1/2)*enemyVelocityX;
-			enemyVelocityY =  (-1/2)*enemyVelocityY;
+			enemyVelocityX[loop] =  (-1/2)*enemyVelocityX[loop];
+			enemyVelocityY[loop] =  (-1/2)*enemyVelocityY[loop];
 		}
 	
 	
 		if (enemyPositionY[loop] >  canvas.height - (1/10)*canvas.height) {
 			enemyPositionY[loop] =  canvas.height - (1/10)*canvas.height;
-			enemyVelocityX =  (-1/2)*enemyVelocityX;
-			enemyVelocityY =  (-1/2)*enemyVelocityY;
+			enemyVelocityX[loop] =  (-1/2)*enemyVelocityX[loop];
+			enemyVelocityY[loop] =  (-1/2)*enemyVelocityY[loop];
 		}
 		else if (enemyPositionY[loop] < 0) {
 			enemyPositionY[loop] =  0;
-			enemyVelocityX =  (-1/2)*enemyVelocityX;
-			enemyVelocityY =  (-1/2)*enemyVelocityY;
+			enemyVelocityX[loop] =  (-1/2)*enemyVelocityX[loop];
+			enemyVelocityY[loop] =  (-1/2)*enemyVelocityY[loop];
 		}
 	
 	}	
