@@ -77,7 +77,7 @@ window.onload = function() {
 	}
 	
 	// Setting Intervals
-	renderTime = 200;
+	renderTime = 10000;
 	window.setInterval(render,renderTime);
 	render();
 }
