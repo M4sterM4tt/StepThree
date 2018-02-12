@@ -21,18 +21,17 @@ var playerVelocityY;
 var playerAccelerationX;
 var playerAccelerationY;
 
-//var enemyType;
-//var enemyPositionX;
-//var enemyPositionY;
-//var enemyVelocityX;
-//var enemyVelocityY;
-//var enemyAccelerationX;
-//var enemyAccelerationY;
+var enemyType;
+var enemyPositionX;
+var enemyPositionY;
+var enemyVelocityX;
+var enemyVelocityY;
+var enemyAccelerationX;
+var enemyAccelerationY;
 
 // Other Variables
 var renderTime;
-var x;
-var breaker;
+var loop;
 
 window.onload = function() {
 	
@@ -55,13 +54,13 @@ window.onload = function() {
 	playerAccelerationX = 0;
 	playerAccelerationY = 0;
 	
-	//enemyType = [2,2,2,2,2,2,3,3,3,3];
-	//enemyPositionX = [0,0,0,0,0,0,0,0,0,0];
-	//enemyPositionY = [0,0,0,0,0,0,0,0,0,0];
-	//enemyVelocityX = [0,0,0,0,0,0,0,0,0,0];
-	//enemyVelocityY = [0,0,0,0,0,0,0,0,0,0];
-	//enemyAccelerationX = [0,0,0,0,0,0,0,0,0,0];
-	//enemyAccelerationY = [0,0,0,0,0,0,0,0,0,0];
+	enemyType = [2,2,2,2,2,2,3,3,3,3];
+	enemyPositionX = [canvas.width/8,0,0,0,0,0,0,0,0,0];
+	enemyPositionY = [canvas.width/8,0,0,0,0,0,0,0,0,0];
+	enemyVelocityX = [0,0,0,0,0,0,0,0,0,0];
+	enemyVelocityY = [0,0,0,0,0,0,0,0,0,0];
+	enemyAccelerationX = [0,0,0,0,0,0,0,0,0,0];
+	enemyAccelerationY = [0,0,0,0,0,0,0,0,0,0];
 
 	body.beginPath();	
 	body.drawImage(level,0,0,canvas.width,canvas.height);
@@ -72,10 +71,10 @@ window.onload = function() {
 	body.beginPath();
 	body.drawImage(otherAssets[1],playerPositionX[1],playerPositionY[1],canvas.width/20,canvas.width/20);	
 	
-	//for(x = 0; x < enemyType.length; x+=1) {
-		//body.beginPath();
-		//body.drawImage(otherAssets[enemyType[x]],enemyPositionX[x],enemyPositionY[x],canvas.width/20,canvas.width/20);
-	//}
+	for(loop = 0; loop < enemyType.length; loop+=1) {
+		body.beginPath();
+		body.drawImage(otherAssets[enemyType[loop]],enemyPositionX[loop],enemyPositionY[loop],canvas.width/20,canvas.width/20);
+	}
 	
 	// Setting Intervals
 	renderTime = 1;
@@ -86,9 +85,10 @@ window.onload = function() {
 
 function render() {
 	
+	
 	window.ondevicemotion = function(deviceMotionEvent) {
 		
-		if (playerAccelerationX/playerAccelerationX == event.beta/event.beta) {
+		if (playerAccelerationX/playerAccelerationX == deviceMotionEvent.accelerationIncludingGravity/deviceMotionEvent.accelerationIncludingGravity) {
 			playerAccelerationX = (1/40)*deviceMotionEvent.accelerationIncludingGravity.y;
 		}
 		else {
@@ -96,11 +96,34 @@ function render() {
 		}
 	
 	
-		if (playerAccelerationY/playerAccelerationY == event.gamma/event.gamma) {
+		if (playerAccelerationY/playerAccelerationY == deviceMotionEvent.accelerationIncludingGravity/deviceMotionEvent.accelerationIncludingGravity) {
 			playerAccelerationY = (1/40)*deviceMotionEvent.accelerationIncludingGravity.x;
 		}
 		else {
 			playerAccelerationY = (1/80)*deviceMotionEvent.accelerationIncludingGravity.x;
+		}
+		
+		for(loop = 0; loop < enemyType.length; loop+=1) {
+			
+			if (enemyType == 3) {
+			
+				if (enemyAccelerationX[loop]/enemyAccelerationX[loop] == deviceMotionEvent.accelerationIncludingGravity/deviceMotionEvent.accelerationIncludingGravity) {
+					enemyAccelerationX[loop] = (1/50)*deviceMotionEvent.accelerationIncludingGravity.y;
+				}
+				else {
+					enemyAccelerationX[loop] = (1/100)*deviceMotionEvent.accelerationIncludingGravity.y;
+				}
+	
+	
+				if (enemyAccelerationY[loop]/enemyAccelerationY[loop] == deviceMotionEvent.accelerationIncludingGravity/deviceMotionEvent.accelerationIncludingGravity) {
+					enemyAccelerationY[loop] = (1/50)*deviceMotionEvent.accelerationIncludingGravity.x;
+				}
+				else {
+					enemyAccelerationY[loop] = (1/100)*deviceMotionEvent.accelerationIncludingGravity.x;
+				}
+			
+			}
+			
 		}
 		
 	}
@@ -110,6 +133,20 @@ function render() {
 	playerVelocityY = playerVelocityY + playerAccelerationY;
 	playerPositionX[1] = playerPositionX[1] + (1/4)*playerVelocityX;
 	playerPositionY[1] = playerPositionY[1] + (1/4)*playerVelocityY;
+	
+	for(loop = 0; loop < enemyType.length; loop+=1) {
+		
+		enemyVelocityX[loop] = enemyVelocityX[loop] + enemyAccelerationX[loop];
+		enemyVelocityY[loop] = enemyVelocityY[loop] + enemyAccelerationY[loop];
+		enemyPositionX[loop] = enemyPositionX[loop] + (1/5)*enemyVelocityX[loop];
+		enemyPositionY[loop] = enemyPositionY[loop] + (1/5)*enemyVelocityY[loop];
+		
+		if ( (playerPositionX[1] <= enemyPositionX[loop] + canvas.width/40 && playerPositionX[1] >= playerPositionX[loop] - canvas.width/40) && (playerPositionY[1] <= playerPositionY[loop] + canvas.width/40 && playerPositionY[1] >= playerPositionY[loop] - canvas.width/40) ) {
+			alert ("You are Dead")
+			enemyPositionX[loop] = canvas.width - enemyPositionX[loop];
+			enemyPositionY[loop] = canvas.height - enemyPositionY[loop];
+		}
+	}	
 	
 	
 	if ( (playerPositionX[1] <= playerPositionX[0] + canvas.width/40 && playerPositionX[1] >= playerPositionX[0] - canvas.width/40) && (playerPositionY[1] <= playerPositionY[0] + canvas.width/40 && playerPositionY[1] >= playerPositionY[0] - canvas.width/40) ) {
@@ -147,11 +184,18 @@ function render() {
 	body.clearRect(0,0,canvas.width,canvas.height);
 	body.drawImage(level,0,0,canvas.width,canvas.height);
 	
+	
 	body.beginPath();
 	body.drawImage(otherAssets[0],playerPositionX[0],playerPositionY[0],canvas.width/20,canvas.width/20);	
 	
+	
 	body.beginPath();
 	body.drawImage(otherAssets[1],playerPositionX[1],playerPositionY[1],canvas.width/20,canvas.width/20);
-		
+	
+	
+	for(loop = 0; loop < enemyType.length; loop+=1) {
+		body.beginPath();
+		body.drawImage(otherAssets[enemyType[loop]],enemyPositionX[loop],enemyPositionY[loop],canvas.width/20,canvas.width/20);
+	}	
 	
 }
