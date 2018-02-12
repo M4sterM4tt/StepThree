@@ -97,10 +97,10 @@ function render() {
 	
 	
 		if (playerAccelerationY/playerAccelerationY == event.gamma/event.gamma) {
-			playerAccelerationY = (-1/40)*deviceMotionEvent.accelerationIncludingGravity.x;
+			playerAccelerationY = (1/40)*deviceMotionEvent.accelerationIncludingGravity.x;
 		}
 		else {
-			playerAccelerationY = (-1/80)*deviceMotionEvent.accelerationIncludingGravity.x;
+			playerAccelerationY = (1/80)*deviceMotionEvent.accelerationIncludingGravity.x;
 		}
 		
 	}
