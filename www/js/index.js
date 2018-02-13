@@ -5,13 +5,16 @@
 // NEED TO REFRENCE THIS https://mobiforge.com/design-development/html5-mobile-web-canvas
 // NEED TO REFRENCE THIS https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model/Managing_screen_orientation
 
+
 // Canvas Variables 
 var canvas; 
 var body;
 
+
 // Image Variables
 var level; 
 var otherAssets;
+
 
 // Location Variables
 var playerPositionX;
@@ -20,7 +23,6 @@ var playerVelocityX;
 var playerVelocityY;
 var playerAccelerationX;
 var playerAccelerationY;
-
 var enemyType;
 var enemyPositionX;
 var enemyPositionY;
@@ -29,9 +31,12 @@ var enemyVelocityY;
 var enemyAccelerationX;
 var enemyAccelerationY;
 
+
 // Other Variables
 var renderTime;
 var loop;
+var loopTwo;
+
 
 window.onload = function() {
 	
@@ -46,6 +51,7 @@ window.onload = function() {
 	level = document.getElementById("levelBase");
 	otherAssets = [document.getElementById("playerGoal"), document.getElementById("playerBall"), document.getElementById("enemyHole"), document.getElementById("enemyBall")];
 	
+	
 	// Location Variables
 	playerPositionX = [canvas.width/4,canvas.width/2];
 	playerPositionY = [canvas.width/4,canvas.width/2];
@@ -54,37 +60,37 @@ window.onload = function() {
 	playerAccelerationX = 0;
 	playerAccelerationY = 0;
 	
-	enemyType = [2,2,2,2,2,2,3,3,3,3];
-	enemyPositionX = [canvas.width/8,0,0,0,0,0,0,0,0,0];
-	enemyPositionY = [canvas.width/8,0,0,0,0,0,0,0,0,0];
+	
+	enemyType = [2,2,3,2,3];
+	enemyPositionX = [canvas.width/8,canvas.width/8 + canvas.width/20,canvas.width/2 + 2*canvas.width/20,canvas.width/8 + 2*canvas.width/20,canvas.width/2 + 4*canvas.width/20];
+	enemyPositionY = [canvas.width/8,canvas.width/8 + canvas.width/20,canvas.width/8 + 2*canvas.width/20,canvas.width/8 + canvas.width/20,canvas.width/8 + 2*canvas.width/20];
 	enemyVelocityX = [0,0,0,0,0,0,0,0,0,0];
 	enemyVelocityY = [0,0,0,0,0,0,0,0,0,0];
 	enemyAccelerationX = [0,0,0,0,0,0,0,0,0,0];
 	enemyAccelerationY = [0,0,0,0,0,0,0,0,0,0];
 
+	
 	body.beginPath();	
 	body.drawImage(level,0,0,canvas.width,canvas.height);
-	
-	body.beginPath();
 	body.drawImage(otherAssets[0],playerPositionX[0],playerPositionY[0],canvas.width/20,canvas.width/20);	
-	
-	body.beginPath();
 	body.drawImage(otherAssets[1],playerPositionX[1],playerPositionY[1],canvas.width/20,canvas.width/20);	
-	
+
+
 	for(loop = 0; loop < enemyType.length; loop+=1) {
 		body.beginPath();
 		body.drawImage(otherAssets[enemyType[loop]],enemyPositionX[loop],enemyPositionY[loop],canvas.width/20,canvas.width/20);
 	}
 	
+	
 	// Setting Intervals
 	renderTime = 1;
 	window.setInterval(render,renderTime);
 	render();
+	
 }
 
 
 function render() {
-	
 	
 	window.ondevicemotion = function(deviceMotionEvent) {
 		
@@ -95,13 +101,13 @@ function render() {
 			playerAccelerationX = (1/80)*deviceMotionEvent.accelerationIncludingGravity.y;
 		}
 	
-	
 		if (playerAccelerationY/playerAccelerationY == deviceMotionEvent.accelerationIncludingGravity/deviceMotionEvent.accelerationIncludingGravity) {
 			playerAccelerationY = (1/40)*deviceMotionEvent.accelerationIncludingGravity.x;
 		}
 		else {
 			playerAccelerationY = (1/80)*deviceMotionEvent.accelerationIncludingGravity.x;
 		}
+		
 		
 		for(loop = 0; loop < enemyType.length; loop+=1) {
 			
@@ -134,45 +140,64 @@ function render() {
 	playerPositionX[1] = playerPositionX[1] + (1/4)*playerVelocityX;
 	playerPositionY[1] = playerPositionY[1] + (1/4)*playerVelocityY;
 	
+	
 	for(loop = 0; loop < enemyType.length; loop+=1) {
 		
-		
-		enemyVelocityX[loop] = enemyVelocityX[loop] + enemyAccelerationX[loop];
-		enemyVelocityY[loop] = enemyVelocityY[loop] + enemyAccelerationY[loop];
-		enemyPositionX[loop] = enemyPositionX[loop] + (1/5)*enemyVelocityX[loop];
-		enemyPositionY[loop] = enemyPositionY[loop] + (1/5)*enemyVelocityY[loop];
-		
-		
-		if ( (playerPositionX[1] <= enemyPositionX[loop] + canvas.width/30 && playerPositionX[1] >= enemyPositionX[loop] - canvas.width/30) && (playerPositionY[1] <= enemyPositionY[loop] + canvas.width/30 && playerPositionY[1] >= enemyPositionY[loop] - canvas.width/30) ) {
-			alert ("You are Dead")
-			enemyPositionX[loop] = canvas.width - enemyPositionX[loop];
-			enemyPositionY[loop] = canvas.height - enemyPositionY[loop];
-		}
+		if (enemyType[loop] == 2 || enemyType[loop] == 3) {
+			
+			
+			enemyVelocityX[loop] = enemyVelocityX[loop] + enemyAccelerationX[loop];
+			enemyVelocityY[loop] = enemyVelocityY[loop] + enemyAccelerationY[loop];
+			enemyPositionX[loop] = enemyPositionX[loop] + (1/5)*enemyVelocityX[loop];
+			enemyPositionY[loop] = enemyPositionY[loop] + (1/5)*enemyVelocityY[loop];
 		
 		
-		if (enemyPositionX[loop] >  canvas.width - (1/10)*canvas.width) {
-			enemyPositionX[loop] =  canvas.width - (1/20)*canvas.width;
-			enemyVelocityX[loop] =  (-1/2)*enemyVelocityX[loop];
-			enemyVelocityY[loop] =  (-1/2)*enemyVelocityY[loop];
-		}
-		else if (playerPositionX[loop] < 0) {
-			enemyPositionX[loop] =  0;
-			enemyVelocityX[loop] =  (-1/2)*enemyVelocityX[loop];
-			enemyVelocityY[loop] =  (-1/2)*enemyVelocityY[loop];
-		}
+			if ( (playerPositionX[1] <= enemyPositionX[loop] + canvas.width/30 && playerPositionX[1] >= enemyPositionX[loop] - canvas.width/30) && (playerPositionY[1] <= enemyPositionY[loop] + canvas.width/30 && playerPositionY[1] >= enemyPositionY[loop] - canvas.width/30) ) {
+				alert ("You are Dead")
+				enemyPositionX[loop] = canvas.width - enemyPositionX[loop];
+				enemyPositionY[loop] = canvas.height - enemyPositionY[loop];
+			}
+		
+		
+			if (enemyPositionX[loop] >  canvas.width - (1/10)*canvas.width) {
+				enemyPositionX[loop] =  canvas.width - (1/20)*canvas.width;
+				enemyVelocityX[loop] =  (-1/2)*enemyVelocityX[loop];
+				enemyVelocityY[loop] =  (-1/2)*enemyVelocityY[loop];
+			}
+			else if (enemyPositionX[loop] < 0) {
+				enemyPositionX[loop] =  0;
+				enemyVelocityX[loop] =  (-1/2)*enemyVelocityX[loop];
+				enemyVelocityY[loop] =  (-1/2)*enemyVelocityY[loop];
+			}
 	
 	
-		if (enemyPositionY[loop] >  canvas.height - (1/10)*canvas.height) {
-			enemyPositionY[loop] =  canvas.height - (1/10)*canvas.height;
-			enemyVelocityX[loop] =  (-1/2)*enemyVelocityX[loop];
-			enemyVelocityY[loop] =  (-1/2)*enemyVelocityY[loop];
-		}
-		else if (enemyPositionY[loop] < 0) {
-			enemyPositionY[loop] =  0;
-			enemyVelocityX[loop] =  (-1/2)*enemyVelocityX[loop];
-			enemyVelocityY[loop] =  (-1/2)*enemyVelocityY[loop];
-		}
+			if (enemyPositionY[loop] >  canvas.height - (1/10)*canvas.height) {
+				enemyPositionY[loop] =  canvas.height - (1/10)*canvas.height;
+				enemyVelocityX[loop] =  (-1/2)*enemyVelocityX[loop];
+				enemyVelocityY[loop] =  (-1/2)*enemyVelocityY[loop];
+			}
+			else if (enemyPositionY[loop] < 0) {
+				enemyPositionY[loop] =  0;
+				enemyVelocityX[loop] =  (-1/2)*enemyVelocityX[loop];
+				enemyVelocityY[loop] =  (-1/2)*enemyVelocityY[loop];
+			}
 	
+	
+			if (enemyType[loop] == 3) {
+			
+				for(loopTwo = 0; loopTwo < enemyType.length; loopTwo+=1) {
+				
+					if ( (enemyPositionX[loop] <= enemyPositionX[loopTwo] + canvas.width/30 && enemyPositionX[loop] >= enemyPositionX[loopTwo] - canvas.width/30) && (enemyPositionY[loop] <= enemyPositionY[loopTwo] + canvas.width/30 && enemyPositionY[loop] >= enemyPositionY[loopTwo] - canvas.width/30) && enemyType[loopTwo] == 2) {
+						alert ("Enemy Ball has been Killed")
+						enemyType[loop] = 4;
+					}
+			
+				}
+			
+			}
+			
+		}
+		
 	}	
 	
 	
@@ -210,13 +235,7 @@ function render() {
 	body.beginPath();
 	body.clearRect(0,0,canvas.width,canvas.height);
 	body.drawImage(level,0,0,canvas.width,canvas.height);
-	
-	
-	body.beginPath();
-	body.drawImage(otherAssets[0],playerPositionX[0],playerPositionY[0],canvas.width/20,canvas.width/20);	
-	
-	
-	body.beginPath();
+	body.drawImage(otherAssets[0],playerPositionX[0],playerPositionY[0],canvas.width/20,canvas.width/20);
 	body.drawImage(otherAssets[1],playerPositionX[1],playerPositionY[1],canvas.width/20,canvas.width/20);
 	
 	
