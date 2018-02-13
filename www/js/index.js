@@ -156,6 +156,7 @@ function render() {
 		
 			if ( (playerPositionX[1] <= enemyPositionX[loop] + canvas.width/30 && playerPositionX[1] >= enemyPositionX[loop] - canvas.width/30) && (playerPositionY[1] <= enemyPositionY[loop] + canvas.width/30 && playerPositionY[1] >= enemyPositionY[loop] - canvas.width/30) ) {
 				alert ("You are Dead");
+				alert ("Enemy Ball has been Killed" + enemyType[0] + " " + enemyType[1] + " " + enemyType[2] + " " + enemyType[3] + " " + enemyType[4]);
 				enemyPositionX[loop] = canvas.width - enemyPositionX[loop];
 				enemyPositionY[loop] = canvas.height - enemyPositionY[loop];
 			}
@@ -190,8 +191,8 @@ function render() {
 				for(loopTwo = 0; loopTwo < enemyType.length; loopTwo+=1) {
 				
 					if ( (enemyPositionX[loop] <= enemyPositionX[loopTwo] + canvas.width/30 && enemyPositionX[loop] >= enemyPositionX[loopTwo] - canvas.width/30) && (enemyPositionY[loop] <= enemyPositionY[loopTwo] + canvas.width/30 && enemyPositionY[loop] >= enemyPositionY[loopTwo] - canvas.width/30) && enemyType[loopTwo] == 2) {
-						alert ("Enemy Ball has been Killed" + enemyType[0] + " " + enemyType[1] + " " + enemyType[2] + " " + enemyType[3] + " " + enemyType[4]);
 						enemyType[loop] = 4;
+						alert ("Enemy Ball has been Killed" + enemyType[0] + " " + enemyType[1] + " " + enemyType[2] + " " + enemyType[3] + " " + enemyType[4]);
 					}
 			
 				}
