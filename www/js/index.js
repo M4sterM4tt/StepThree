@@ -150,7 +150,7 @@ function render() {
 		}
 		
 		
-		if (enemyPositionX[loop] >  canvas.width - (1/20)*canvas.width) {
+		if (enemyPositionX[loop] >  canvas.width - (1/10)*canvas.width) {
 			enemyPositionX[loop] =  canvas.width - (1/20)*canvas.width;
 			enemyVelocityX[loop] =  (-1/2)*enemyVelocityX[loop];
 			enemyVelocityY[loop] =  (-1/2)*enemyVelocityY[loop];
